@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useRef } from "react";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
 interface MegaMenuProps {
     label: string;
@@ -13,6 +14,7 @@ interface MegaMenuProps {
 export function MegaMenu({ label, href = "#", content }: MegaMenuProps) {
     const [open, setOpen] = useState(false);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const pathname = usePathname();
 
     const handleMouseEnter = () => {
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -31,7 +33,11 @@ export function MegaMenu({ label, href = "#", content }: MegaMenuProps) {
         >
             <Link
                 href={href}
-                className="text-base font-semibold text-muted-foreground transition-colors hover:text-foreground px-2"
+                className={cn(
+                    "relative px-2 text-base font-semibold text-muted-foreground transition-colors hover:text-foreground",
+                    "after:absolute after:bottom-0 after:left-1/2 after:w-0 after:h-[2px] after:bg-foreground after:transition-all after:duration-300 after:origin-center hover:after:w-full hover:after:left-0",
+                    pathname === href && "text-foreground"
+                )}
             >
                 {label}
             </Link>
