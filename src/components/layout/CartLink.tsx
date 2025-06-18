@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useCart } from "@/store/cart";
 
 export function CartLink() {
-    const count = useCart((state) => state.getCount());
+    const count = useCart((state) =>
+        state.items.reduce((total, item) => total + item.quantity, 0)
+    );
 
     return (
         <Link href="/cart" className="relative flex items-center">

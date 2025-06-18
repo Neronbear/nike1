@@ -2,46 +2,41 @@
 
 import { useCart } from "@/store/cart";
 import Image from "next/image";
-import { X } from "lucide-react"; // иконка-крестик (если используешь lucide)
+import { formatPrice } from "@/lib/formatPrice";
 
 export default function CartPage() {
-    const items = useCart((state) => state.items);
-    const removeFromCart = useCart((state) => state.removeFromCart);
+    const { items, increaseQuantity, decreaseQuantity, removeFromCart } = useCart();
 
-    if (items.length === 0) {
-        return <div className="p-10 text-center text-muted-foreground">Корзина пуста</div>;
-    }
+    const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     return (
-        <div className="max-w-4xl mx-auto px-6 py-10 space-y-6">
+        <main className="max-w-5xl mx-auto px-4 py-10">
             <h1 className="text-3xl font-bold mb-6">Корзина</h1>
-            <ul className="space-y-6">
-                {items.map((item) => (
-                    <li key={item.id} className="flex items-center gap-6 border rounded-lg p-4">
-                        <div className="relative">
-                            <Image
-                                src={item.image}
-                                alt={item.name}
-                                width={80}
-                                height={80}
-                                className="rounded-md"
-                            />
-                            <button
-                                onClick={() => removeFromCart(item.id)}
-                                className="absolute top-[-8px] right-[-8px] bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition"
-                                aria-label="Удалить"
-                            >
-                                <X size={16} />
+
+            {items.length === 0 ? (
+                <p>Ваша корзина пуста.</p>
+            ) : (
+                <div className="space-y-6">
+                    {items.map((item) => (
+                        <div key={item.id} className="flex gap-4 items-center border-b pb-4">
+                            <Image src={item.image} alt={item.name} width={100} height={100} className="rounded" />
+                            <div className="flex-1">
+                                <h2 className="font-semibold">{item.name}</h2>
+                                <p className="text-muted-foreground">{formatPrice(item.price)} ₽</p>
+                                <div className="flex items-center gap-2 mt-2">
+                                    <button onClick={() => decreaseQuantity(item.id)} className="px-2 py-1 border rounded">-</button>
+                                    <span>{item.quantity}</span>
+                                    <button onClick={() => increaseQuantity(item.id)} className="px-2 py-1 border rounded">+</button>
+                                </div>
+                            </div>
+                            <button onClick={() => removeFromCart(item.id)} className="text-sm text-red-500 hover:underline">
+                                Удалить
                             </button>
                         </div>
-                        <div className="flex-1">
-                            <h3 className="text-xl font-semibold">{item.name}</h3>
-                            <p className="text-muted-foreground">Цена: {item.price} ₽</p>
-                            <p className="text-muted-foreground">Количество: {item.quantity}</p>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-        </div>
+                    ))}
+                    <div className="text-xl font-bold mt-6">Итого: {formatPrice(total)} ₽</div>
+                </div>
+            )}
+        </main>
     );
 }
