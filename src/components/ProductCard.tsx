@@ -1,3 +1,4 @@
+// src/components/ProductCard.tsx
 'use client';
 
 import Image from "next/image";
@@ -30,7 +31,7 @@ export function ProductCard(product: Product) {
                     <p className="text-muted-foreground">{formatPrice(product.price)} ₽</p>
                     <button
                         onClick={(e) => {
-                            e.preventDefault(); // чтобы не переходило по ссылке
+                            e.preventDefault();
                             addToCart(product);
                         }}
                         className="mt-2 text-sm px-4 py-2 border rounded hover:bg-black hover:text-white transition"

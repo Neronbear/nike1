@@ -106,9 +106,9 @@ export function Header() {
                                 <MenuColumn
                                     title="Обувь"
                                     items={[
-                                        { label: "Air Max", href: "/shop/shoes/air-max" },
-                                        { label: "Jordan", href: "/shop/shoes/jordan" },
-                                        { label: "Blazer", href: "/shop/shoes/blazer" },
+                                        { label: "football", href: "/shop/shoes/air-max" },
+                                        { label: "basketball", href: "/shop/shoes/jordan" },
+                                        { label: "street", href: "/shop/shoes/blazer" },
                                     ]}
                                 />
                                 <MenuColumn

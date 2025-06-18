@@ -3,18 +3,20 @@
 import { useParams } from 'next/navigation';
 import { products } from '@/data/products';
 import { ProductCard } from '@/components/ProductCard';
-import { ProductFilters } from '@/components/ProductFilters';
 
-export default function AccessoryTypePage() {
-    const { type } = useParams();
+export default function SubCategoryPage() {
+    const { category, type } = useParams();
+
     const filtered = products.filter(
-        (p) => p.category === 'accessories' && p.type === type
+        (product) => product.category === category && product.type === type
     );
 
     return (
-        <main className="flex p-6 gap-6">
-            <ProductFilters />
-            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <main className="p-6">
+            <h1 className="text-2xl font-bold mb-4">
+                {category} / {type}
+            </h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {filtered.map((product) => (
                     <ProductCard key={product.id} {...product} />
                 ))}
