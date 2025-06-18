@@ -8,6 +8,7 @@ export function CartLink() {
         state.items.reduce((total, item) => total + item.quantity, 0)
     );
 
+
     return (
         <Link href="/cart" className="relative flex items-center">
       <span className="text-base font-semibold text-muted-foreground hover:text-foreground transition cursor-pointer">
